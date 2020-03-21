@@ -42,18 +42,21 @@
 
         <div id="products" class="products">
 
-          <script id="hr-template" type="text/x-handlebars-template">
+        <script id="hr-template" type="text/x-handlebars-template">
+           {{#if cells.Stock}}
             <div class="column one-third">
               <div class="simpleCart_shelfItem item">
-                <div class="item_image"><img src="{{cells.Image}}"></div>
-                <h2 class="item_name">{{cells.Name}}</h2>
-                <div class="item_description">{{cells.Description}}</div>
+                <div class="item_image"><img src="{{cells.Imagen}}"></div>
+                <h2 class="item_name">{{cells.Nombre}}</h2>
+                <div class="item_description">{{cells.Descripcion}}</div>
+                {{log cells.Descripcion}}
                 <div style="margin-top:10px;">
-                  <span class="item_price">${{cells.Price}}</span>
+                  <span class="item_price">${{cells.Precio}}</span>
                   <button href="javascript:;" class="item_add">Add to Cart</button>
                 </div>
               </div>
             </div>
+            {{/if}}
           </script>
 
         </div>
