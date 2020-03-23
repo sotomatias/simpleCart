@@ -1,4 +1,5 @@
 //* Add PayPal Email
+import {phone} from './config';
 simpleCart({
   checkout: {
     type: "MercadoPago",
@@ -8,6 +9,11 @@ simpleCart({
 
 //* Add shopping cart dropdown in header
 jQuery(document).ready(function () {
+  $('a[href^="whatsapp://"]').each(function(){
+    var oldUrl = $(this).attr("href"); // Get current url
+    var newUrl = oldUrl.replace("whatsapp://", "whatsapp://"+phone+"?texto=Comparto%20mi%20pedido"); // Create new url
+    $(this).attr("href", newUrl); // Set herf value
+  });
   $('.showCart').on('click', function () {
     $('#cartPopover').slideToggle('fast');
     $('.showCart span.dropdown').toggleClass('fa-chevron-circle-down fa-chevron-circle-up');

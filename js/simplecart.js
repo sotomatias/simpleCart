@@ -585,33 +585,31 @@ import {mp_access_token} from './config';
                             e = a.options(),
                             f = 0,
                             h;
-                        d["title"] = a.get("name");
-                        d["description"] = a.get("description");
-                        d["quantity"] = a.quantity();
-                        d["currency_id"] = b.currency().code;
-                        d["unit_price"] = parseFloat((1 * a.price()).toFixed(2));
+                        Items.push({
+                            "title": a.get("name"),
+                            "description": a.get("description"),
+                            "quantity": a.quantity(),
+                            "currency_id": b.currency().code,
+                            "unit_price": parseFloat((1 * a.price()).toFixed(2)),
+                        });
+                    });
                         // d["item_number_"] = a.get("item_number") || g;
                         // d["option_index_"] = Math.min(10, f);
-                        Items.push(d);
-                    });
-                    const Items2 = {"items" : JSON.stringify(Items)};
+                    var Items = {
+                        "items" : Items
+                    };
+                    var  Products = JSON.stringify(Items);
                     var Body = {
                         method: 'POST',
                         headers: {'Content-Type' : 'application/json'},
-                        body: {"items" : Items},
+                        body: Products,
                     };
                     var MercadoPago = new Request('https://api.mercadopago.com/checkout/preferences?access_token='+mp_access_token, Body);
-                    console.log(Body);
                     fetch(MercadoPago).then((response) => {
                         response.json().then((data) => {
-                            console.log(data);
+                                window.location.href = data.sandbox_init_point;
                         });
                     });
-                    return {
-                        action: c,
-                        method: g,
-                        data: d
-                    }
                 },
                 PayPal: function(a) {
                     if (!a.email) return b.error("No email provided for PayPal checkout");
