@@ -1,4 +1,4 @@
-import {mp_access_token} from './config';
+import {URL, sandbox, mp_access_token, mp_access_token_prod} from './config.js';
 (function(p, f) {
     var s = "string",
         k = function(e, f) {
@@ -184,6 +184,10 @@ import {mp_access_token} from './config';
                         attr: "price",
                         label: "Precio",
                         view: "currency"
+                    },
+                        {
+                        attr: "limit",
+                        label: "Límite"
                     }, {
                         view: "decrement",
                         label: !1
@@ -527,8 +531,15 @@ import {mp_access_token} from './config';
                     });
                     return a
                 },
+                limit: function(){
+                    return this.get("limit");
+                },
                 quantity: function(a) {
-                    return e(a) ? parseInt(this.get("quantity", !0) || 1, 10) : this.set("quantity", a)
+                    if(this.get("quantity") >= this.get("limit")){
+                        return this.get("quantity");
+                    } else {
+                    return e(a) ? parseInt(this.get("quantity", !0) || 1, 10) : this.set("quantity", a);
+                    }
                 },
                 price: function(a) {
                     return e(a) ? parseFloat(this.get("price", !0).toString().replace(b.currency().symbol, "").replace(b.currency().delimiter, "") || 1) : this.set("price", parseFloat(a.toString().replace(b.currency().symbol, "").replace(b.currency().delimiter, "")))
@@ -537,8 +548,8 @@ import {mp_access_token} from './config';
                     return this.get("id", !1)
                 },
                 total: function() {
-                    return this.quantity() * this.price()
-                }
+                    return this.quantity() * this.price();
+                },
             };
             b.extend({
                 checkout: function() {
@@ -585,6 +596,7 @@ import {mp_access_token} from './config';
                             e = a.options(),
                             f = 0,
                             h;
+                        console.log(b.total());
                         Items.push({
                             "title": a.get("name"),
                             "description": a.get("description"),
@@ -595,19 +607,41 @@ import {mp_access_token} from './config';
                     });
                         // d["item_number_"] = a.get("item_number") || g;
                         // d["option_index_"] = Math.min(10, f);
-                    var Items = {
-                        "items" : Items
+                    var Name = document.getElementById('name').value;
+                    var Email = document.getElementById('email').value;
+                    var Payer = {
+                        "name" : Name,
+                        "email" : Email,
                     };
-                    var  Products = JSON.stringify(Items);
+                    var BackURL = {
+                        "success" : URL,
+                    }
+                    var Data = {
+                        "items" : Items,
+                        "payer" : Payer,
+                        "back_urls" : BackURL,
+                    };
+                    var  Products = JSON.stringify(Data);
                     var Body = {
                         method: 'POST',
                         headers: {'Content-Type' : 'application/json'},
                         body: Products,
                     };
-                    var MercadoPago = new Request('https://api.mercadopago.com/checkout/preferences?access_token='+mp_access_token, Body);
+                    // a.sandbox = true;
+                    if(sandbox === true){
+                       var mp_token = mp_access_token;
+                    } else {
+                        var mp_token = mp_access_token_prod;
+                    }
+                    var MercadoPago = new Request('https://api.mercadopago.com/checkout/preferences?access_token='+mp_token, Body);
                     fetch(MercadoPago).then((response) => {
+                        console.log(response);
                         response.json().then((data) => {
+                               if(sandbox === true){
                                 window.location.href = data.sandbox_init_point;
+                               } else {
+                                   window.location.href = data.init_point;
+                               }
                         });
                     });
                 },
@@ -1347,7 +1381,7 @@ JSON || (JSON = {});
                             e = k(e);
                             f.getAttribute(e) || this.length++;
                             f.setAttribute(e, h);
-                            f.save("localStorage")
+                            f.save("localStorage");
                         },
                         getItem: function(e) {
                             f.load("localStorage");

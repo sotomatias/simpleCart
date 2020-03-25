@@ -27,7 +27,7 @@
             <span class="simpleCart_quantity"></span> items - <span class="simpleCart_total"></span>
             <span class="dropdown fa fa-chevron-circle-down"></span>
             </span>
-            <button><a href="/checkout" style="color: white;">Checkout</a></button>
+            <a class="button" href="/checkout.html">Pagar</a>
             <div id="cartPopover" style="display:none">
               <div class="simpleCart_items"></div>
             </div>
@@ -49,10 +49,10 @@
                 <div class="item_image"><img src="{{cells.Imagen}}"></div>
                 <h2 class="item_name">{{cells.Nombre}}</h2>
                 <div class="item_description">{{cells.Descripcion}}</div>
-                {{log cells.Descripcion}}
+                <div>Hasta <span class="item_limit">{{cells.Limite}}</span> unidades.</div>
                 <div style="margin-top:10px;">
                   <span class="item_price">${{cells.Precio}}</span>
-                  <button href="javascript:;" class="item_add">Add to Cart</button>
+                  <button href="javascript:;" class="item_add">Agregar</button>
                 </div>
               </div>
             </div>

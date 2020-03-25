@@ -24,10 +24,10 @@
                 <div class="simplecart_cart">
             <span class="showCart">
           <span class="fa fa-shopping-cart"></span>
-            <span class="simpleCart_quantity"></span> items - <span class="simpleCart_total"></span>
+            <span class="simpleCart_quantity"></span> items - <span id="total" class="simpleCart_total"></span>
             <span class="dropdown fa fa-chevron-circle-down"></span>
             </span>
-                    <button class="simpleCart_checkout">Checkout</button>
+                    <a class="button" href="/checkout">Checkout</a>
                     <div id="cartPopover" style="display:none">
                         <div class="simpleCart_items"></div>
                     </div>
@@ -39,14 +39,25 @@
 
     <div class="site-inner">
         <div class="wrap">
-
             <div id="products" class="products">
             <div>
+                <form>
+                    <p>Nombre:<br>
+                    <input type="text" id="name" name="name">
+                    </p>
+                    <p>Teléfono (WhatsApp):<br>
+                    <input type="number" id="phone" name="phone">
+                    </p>
+                    <p>Correo electrónico:<br>
+                    <input type="email" id="email" name="email">
+                    </p>
                 <p>
-                    <a href="whatsapp://" data-action="share/whatsapp/share">Envia tu pedido por WhatsApp</a><br>
-                    <button class="simpleCart_checkout">Checkout</button>
+                    Métodos de Pago - <span class="simpleCart_total"></span><br>
+                    <button type="button" class="simpleCart_checkout">MercadoPago</button>
                 </p>
+                <a class="button" href="whatsapp://" data-action="share/whatsapp/share">Envia tu pedido por WhatsApp</a>
             </div>
+                </form>
             </div>
 
         </div>
